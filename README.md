@@ -6,15 +6,16 @@ This project implements a movie recommendation system that combines several tech
 
 ## Features
 
--   **Web Scraping**: Scrapes movie data from IMDb using a custom scraper.
--   **Data Preprocessing**: Cleans and prepares the scraped data for further analysis.
--   **Vector Database**: Creates a FAISS vector database to store movie embeddings for efficient similarity search.
--   **Hybrid Retrieval**: Combines semantic search and keyword-based retrieval for improved accuracy.
--   **HyDE (Hypothetical Document Embeddings)**: Generates hypothetical movie synopses based on user queries to improve search relevance.
--   **Feature Extraction**: Extracts movie features (liked/disliked genres, stars, directors, years, rating) from a user query to hard filter the results.
--   **Reranking**: Reranks the search results using a cross-encoder model.
--   **Recommendation Generation**: Generates personalized movie recommendations using LLMs.
--   **User Interface**: Provides a Streamlit UI for users to interact with the system.
+-   **Web Scraping:** Scrapes movie data from IMDb using a custom scraper.
+-   **Data Preprocessing:** Cleans and prepares the scraped data for further analysis.
+-   **Vector Database:** Creates a FAISS vector database to store movie embeddings for efficient similarity search.
+-   **Hybrid Retrieval:** Combines semantic search and keyword-based retrieval for improved accuracy.
+-   **HyDE (Hypothetical Document Embeddings):** Generates hypothetical movie synopses based on user queries to improve search relevance.
+-   **Feature Extraction:** Extracts movie features (liked/disliked genres, stars, directors, years, rating) from a user query to hard filter the results.
+-   **Reranking:** Reranks the search results using a cross-encoder model.
+-   **Recommendation Generation:** Generates personalized movie recommendations using LLMs.
+-   **User Interface:** Provides a Streamlit UI for users to interact with the system.
+-   **Docker:** Containerization of the application for easy deployment.
 
 ## Technologies Used
 
@@ -28,37 +29,60 @@ This project implements a movie recommendation system that combines several tech
 -   SQLite
 -   Selenium
 -   Beautiful Soup
+-   Docker
 
 ## Setup and Installation
 
 1.  **Clone the repository:**
 
     ```bash
-    git clone <repository_url>
-    cd movie-recommender-mle
+    git clone https://github.com/orcunziylan/RAG-Movie-Recommender
+    cd RAG-Movie-Recommender
     ```
 
-2.  **Install the dependencies:**
+
+2. **Create a Virtual Environment:**
+
+    Create and activate a virtual environment to isolate project dependencies:
+
+    - On macOS/Linux:
+      ```bash
+      python -m venv venv
+      source venv/bin/activate
+      ```
+
+    - On Windows:
+      ```bash
+      python -m venv venv
+      venv\Scripts\activate
+      ```
+
+3. **Install the dependencies (Development Environment):**
 
     ```bash
     pip install -r requirements.txt
     ```
 
+    > **Note:**  
+    > - The `requirements.txt` file installs the full set of dependencies required for development, including libraries for web scraping (e.g., Selenium, Beautiful Soup) and additional tools.
+    > - For production deployments, a slimmer set of runtime dependencies is defined in `requirements_app.txt`.
+
 3.  **Set up the environment variables:**
 
     -   Obtain an API key for the Google Gemini API.
     -   Set the `GEMINI_API_KEY` environment variable with your API key in ".env".
+    -   Configurate 'config.py' to define paths and parameters.
 
-## Usage
+## Usage 
 
 1.  **Scrape and build the database:**
 
     -   Derive your own link with your preferences from the base link: `https://www.imdb.com/search/title/`
 
     ```bash
-    python -m src.scraping.run_scraper --search basic --load-pages --dry-run --link "<your_own_link>"
+    python -m src.scraping.run_scraper --search basic --load-pages --link "<your_own_link>"
     ```
-
+    
     -   `--search`: \[basic, advanced] / required
         -   `basic`: Includes title, year, IMDb rating, Metascore, PG rating, votes, length, plot, summary, synopsis, directors, stars, genres, review title, review rating, review text, and link.
         -   `advanced`: Also populates summary, synopsis.
@@ -79,6 +103,29 @@ This project implements a movie recommendation system that combines several tech
     ```bash
     streamlit run app.py
     ```
+
+## Dockerization / Optional Deployment
+
+For production deployments, you can containerize the application using Docker. To reduce the final image size, the Docker build uses the `requirements_app.txt` file—which installs only the essential runtime dependencies (excluding development libraries).
+
+The `Dockerfile`, `docker-compose.yml`, and `.dockerignore` files are provided for your convenience.
+
+### To Build and Run the Docker Container:
+
+- **Using Docker CLI:**
+
+    ```bash
+    docker build -t movie-recommender .
+    docker run -p 8501:8501 movie-recommender
+    ```
+
+- **Using Docker Compose:**
+
+    ```bash
+    docker-compose up
+    ```
+
+Once the container is running, access the app at [http://localhost:8501](http://localhost:8501).
 
 ## Project Structure
 
