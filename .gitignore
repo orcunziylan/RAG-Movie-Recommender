@@ -1,0 +1,49 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment
+venv/
+env/
+ENV/
+.venv
+.env
+.environment
+
+# Data and media files
+data/
+*.csv
+*.json
+*.sqlite
+*.db
+*.parquet
+*.npy
+*.npz
+*.pkl
+*.h5
+*.hdf5
+*.wav
+*.mp3
+*.ogg
+*.avi
+*.mp4
+*.mkv
+*.zip
+*.tar.gz
+*.7z
+
+# IDE and editor folders
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.swp
+
+# OS generated files #
+.DS_Store
+._*
+Thumbs.db
+ehthumbs.db
